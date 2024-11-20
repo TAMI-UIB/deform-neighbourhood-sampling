@@ -652,7 +652,6 @@ std::tuple<at::Tensor, at::Tensor> deform_nbrhd_backward_kernel(
   const int in_channels = input_c.size(1);
   const int in_h = input_c.size(2);
   const int in_w = input_c.size(3);
-  const int n_offset_vals = offset_c.size(1);
 
   const int n_parallel_images =
       get_greatest_divisor_below_bound(batch_sz, kMaxParallelImgs);
@@ -661,8 +660,6 @@ std::tuple<at::Tensor, at::Tensor> deform_nbrhd_backward_kernel(
   const int ker_w = dilation_w * (nbrhd_w - 1) + 1;
   const int out_h = ((in_h + 2 * pad_h - ker_h) / stride_h) + 1;
   const int out_w = ((in_w + 2 * pad_w - ker_w) / stride_w) + 1;
-  const int64_t num_kernels = (int64_t)out_h * out_w * 2 * nbrhd_h * nbrhd_w *
-                              offset_groups * n_parallel_images;
 
   auto grad_input = at::zeros_like(input_c);
   auto grad_offset = at::zeros_like(offset_c);
