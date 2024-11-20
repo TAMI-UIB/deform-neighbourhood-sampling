@@ -219,8 +219,9 @@ void deformable_im2col(const at::Tensor &input, const at::Tensor &data_offset,
                           (1 << 31));
 
   if (use_64bits_indexing) {
-    AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-        input.scalar_type(), "deformable_im2col", ([&] {
+    AT_DISPATCH_FLOATING_TYPES_AND2(
+        at::ScalarType::Half, at::ScalarType::BFloat16, input.scalar_type(),
+        "deformable_im2col", ([&] {
           deformable_im2col_kernel<scalar_t, int64_t><<<blocks, threads>>>(
               num_kernels, input.data_ptr<scalar_t>(),
               data_offset.data_ptr<scalar_t>(), data_mask.data_ptr<scalar_t>(),
@@ -231,8 +232,9 @@ void deformable_im2col(const at::Tensor &input, const at::Tensor &data_offset,
         }));
 
   } else {
-    AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-        input.scalar_type(), "deformable_im2col", ([&] {
+    AT_DISPATCH_FLOATING_TYPES_AND2(
+        at::ScalarType::Half, at::ScalarType::BFloat16, input.scalar_type(),
+        "deformable_im2col", ([&] {
           deformable_im2col_kernel<scalar_t, int><<<blocks, threads>>>(
               num_kernels, input.data_ptr<scalar_t>(),
               data_offset.data_ptr<scalar_t>(), data_mask.data_ptr<scalar_t>(),
@@ -468,8 +470,9 @@ void compute_grad_offset(const at::Tensor &columns, const at::Tensor &input,
        (1 << 31));
 
   if (use_64bits_indexing) {
-    AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-        columns.scalar_type(), "compute_grad_offset", ([&] {
+    AT_DISPATCH_FLOATING_TYPES_AND2(
+        at::ScalarType::Half, at::ScalarType::BFloat16, columns.scalar_type(),
+        "compute_grad_offset", ([&] {
           deformable_col2im_coord_kernel<scalar_t, int64_t>
               <<<blocks, threads>>>(
                   num_kernels, columns.data_ptr<scalar_t>(),
@@ -483,8 +486,9 @@ void compute_grad_offset(const at::Tensor &columns, const at::Tensor &input,
                   static_cast<scalar_t *>(nullptr) /* grad_mask */);
         }));
   } else {
-    AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-        columns.scalar_type(), "compute_grad_offset", ([&] {
+    AT_DISPATCH_FLOATING_TYPES_AND2(
+        at::ScalarType::Half, at::ScalarType::BFloat16, columns.scalar_type(),
+        "compute_grad_offset", ([&] {
           deformable_col2im_coord_kernel<scalar_t, int><<<blocks, threads>>>(
               num_kernels, columns.data_ptr<scalar_t>(),
               input.data_ptr<scalar_t>(), offset.data_ptr<scalar_t>(),
@@ -525,8 +529,9 @@ void compute_grad_input(const at::Tensor &columns, const at::Tensor &offset,
   at::globalContext().alertNotDeterministic("compute_grad_input");
 
   if (use_64bits_indexing) {
-    AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-        columns.scalar_type(), "compute_grad_input", ([&] {
+    AT_DISPATCH_FLOATING_TYPES_AND2(
+        at::ScalarType::Half, at::ScalarType::BFloat16, columns.scalar_type(),
+        "compute_grad_input", ([&] {
           deformable_col2im_kernel<scalar_t, int64_t><<<blocks, threads>>>(
               num_kernels, columns.data_ptr<scalar_t>(),
               offset.data_ptr<scalar_t>(),
@@ -537,8 +542,9 @@ void compute_grad_input(const at::Tensor &columns, const at::Tensor &offset,
               grad_im.data_ptr<scalar_t>());
         }));
   } else {
-    AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-        columns.scalar_type(), "compute_grad_input", ([&] {
+    AT_DISPATCH_FLOATING_TYPES_AND2(
+        at::ScalarType::Half, at::ScalarType::BFloat16, columns.scalar_type(),
+        "compute_grad_input", ([&] {
           deformable_col2im_kernel<scalar_t, int><<<blocks, threads>>>(
               num_kernels, columns.data_ptr<scalar_t>(),
               offset.data_ptr<scalar_t>(),

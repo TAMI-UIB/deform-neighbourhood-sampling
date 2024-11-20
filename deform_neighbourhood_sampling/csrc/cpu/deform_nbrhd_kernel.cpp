@@ -185,8 +185,9 @@ void deformable_im2col(const at::Tensor &input, const at::Tensor &data_offset,
                        at::Tensor data_col) {
   int num_kernels = n_in_channels * out_h * out_w * parallel_imgs;
 
-  AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-      input.scalar_type(), "deformable_im2col", ([&] {
+  AT_DISPATCH_FLOATING_TYPES_AND2(
+      at::ScalarType::Half, at::ScalarType::BFloat16, input.scalar_type(),
+      "deformable_im2col", ([&] {
         deformable_im2col_kernel(
             num_kernels, input.data_ptr<scalar_t>(),
             data_offset.data_ptr<scalar_t>(), data_mask.data_ptr<scalar_t>(),
@@ -400,8 +401,9 @@ void compute_grad_offset(const at::Tensor &columns, const at::Tensor &input,
   const int num_kernels =
       out_h * out_w * 2 * nbrhd_h * nbrhd_w * offset_groups * parallel_imgs;
 
-  AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-      columns.scalar_type(), "compute_grad_offset", ([&] {
+  AT_DISPATCH_FLOATING_TYPES_AND2(
+      at::ScalarType::Half, at::ScalarType::BFloat16, columns.scalar_type(),
+      "compute_grad_offset", ([&] {
         deformable_col2im_coord_kernel(
             num_kernels, columns.data_ptr<scalar_t>(),
             input.data_ptr<scalar_t>(), offset.data_ptr<scalar_t>(),
@@ -429,8 +431,9 @@ void compute_grad_input(const at::Tensor &columns, const at::Tensor &offset,
   const int num_kernels =
       channels * nbrhd_h * nbrhd_w * out_h * out_w * parallel_imgs;
 
-  AT_DISPATCH_FLOATING_TYPES_AND_HALF(
-      columns.scalar_type(), "compute_grad_input", ([&] {
+  AT_DISPATCH_FLOATING_TYPES_AND2(
+      at::ScalarType::Half, at::ScalarType::BFloat16, columns.scalar_type(),
+      "compute_grad_input", ([&] {
         deformable_col2im_kernel(
             num_kernels, columns.data_ptr<scalar_t>(),
             offset.data_ptr<scalar_t>(),

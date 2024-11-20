@@ -1,6 +1,6 @@
 [project]
 name = "deform-neighbourhood-sampling"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
     {name = "Marco Sánchez Beeckman", email = "marco.sanchez@uib.es"}
 ]
