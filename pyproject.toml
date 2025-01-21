@@ -1,6 +1,6 @@
 [project]
 name = "deform-neighbourhood-sampling"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
     {name = "Marco Sánchez Beeckman", email = "marco.sanchez@uib.es"}
 ]
@@ -9,8 +9,7 @@ readme = "README.md"
 
 requires-python = ">= 3.12"
 dependencies = [
-    "torch>=2.4",
-    "numpy<2.0"
+    "torch>=2.4"
 ]
 
 [project.optional-dependencies]
