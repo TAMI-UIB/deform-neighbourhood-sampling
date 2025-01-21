@@ -62,8 +62,6 @@ def get_extensions():
 
 
 setup(
-    name=library_name,
-    version="0.1.0",
     packages=find_packages(),
     ext_modules=get_extensions(),
     cmdclass={"build_ext": BuildExtension},
