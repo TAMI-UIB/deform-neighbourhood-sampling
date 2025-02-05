@@ -1,13 +1,13 @@
-import os
 import glob
+import os
+
 import torch
 from setuptools import find_packages, setup
-
 from torch.utils.cpp_extension import (
+    CUDA_HOME,
+    BuildExtension,
     CppExtension,
     CUDAExtension,
-    BuildExtension,
-    CUDA_HOME,
 )
 
 library_name = "deform_neighbourhood_sampling"

@@ -1,15 +1,15 @@
 [project]
 name = "deform-neighbourhood-sampling"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
     {name = "Marco Sánchez Beeckman", email = "marco.sanchez@uib.es"}
 ]
 description = "A torch custom operator for deformable neighbourhood sampling"
 readme = "README.md"
 
-requires-python = ">= 3.12"
+requires-python = ">=3.12,<3.13"
 dependencies = [
-    "torch>=2.4"
+    "torch>=2.6.0,<2.7.0"
 ]
 
 [project.optional-dependencies]
@@ -21,6 +21,6 @@ cli = [
 [build-system]
 requires = [
     "setuptools",
-    "torch",
+    "torch>=2.6.0,<2.7.0",
 ]
 build-backend = "setuptools.build_meta"
